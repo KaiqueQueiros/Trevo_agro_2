@@ -36,6 +36,7 @@ public class User implements UserDetails {
     private String password;
     private String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

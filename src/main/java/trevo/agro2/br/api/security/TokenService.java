@@ -5,11 +5,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import trevo.agro2.br.api.model.User;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -17,17 +15,6 @@ public class TokenService {
     public static final int TOKEN_EXPIRATE = 850000_000;
     @Value("${api.security.token.secret}")
     private String secret;
-
-//    private UsernamePasswordAuthenticationToken getAuthenticarionToken(String token) {
-//        String user = JWT.require(Algorithm.HMAC256(JTWAuthenticationFilter.TOKEN_PASSWORD))
-//                .build()
-//                .verify(token)
-//                .getSubject();
-//        if (user == null) {
-//            return null;
-//        }
-//        return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
-//    }
 
     public String token(User user) {
         try {

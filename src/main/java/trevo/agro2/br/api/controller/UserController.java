@@ -1,5 +1,7 @@
 package trevo.agro2.br.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,29 +12,26 @@ import trevo.agro2.br.api.service.UserService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/login")
+@RequestMapping(value = "/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
     @PostMapping
+    @Operation(summary = "Cadastra um novo usuario na api",tags = "user",security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> register(@RequestBody @Valid User user) {
         return userService.register(user);
     }
 
     @GetMapping(value = "/list")
+    @Operation(summary = "Lista os usuarios da api",tags = "user",security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> list() {
         return userService.list();
     }
 
-    @GetMapping(value = "/validpassword")
-    public ResponseEntity<?> validPassword(@RequestParam String login,
-                                           @RequestParam String password) {
-        return userService.validPassword(login, password);
-    }
-
-    @PostMapping(value = "/teste")
-    public ResponseEntity<?> teste(@RequestBody @Valid UserTokenService dto) {
+    @PostMapping(value = "/login")
+    @Operation(summary = "Login na api e fornecendo o JTW",tags = "user")
+    public ResponseEntity<?> login(@RequestBody @Valid UserTokenService dto) {
         return userService.token(dto);
     }
 
@@ -41,6 +40,7 @@ public class UserController {
 //        return userService.update(id, user);
 //    }
     @DeleteMapping(value = "/delete/{id}")
+    @Operation(summary = "Deleta um usuario da api",tags = "user")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return userService.delete(id);
     }

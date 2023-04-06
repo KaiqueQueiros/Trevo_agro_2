@@ -3,10 +3,12 @@ package trevo.agro2.br.api.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro2.br.api.dto.ProductDto;
 import trevo.agro2.br.api.service.ProductService;
@@ -15,7 +17,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("product")
-
+@SecurityRequirement(name = "bearer-key")
 public class ProductController {
     @Autowired
     ProductService productService;
