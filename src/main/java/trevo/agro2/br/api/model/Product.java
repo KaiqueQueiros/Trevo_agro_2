@@ -1,9 +1,11 @@
 package trevo.agro2.br.api.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import trevo.agro2.br.api.dto.Category;
 import trevo.agro2.br.api.dto.ProductDto;
 import trevo.agro2.br.api.dto.Status;
 import java.time.LocalDate;
@@ -28,6 +30,7 @@ public class Product {
     private Double price;
     private LocalDate date;
     private Status status;
+    private Category category;
 
     public Product(ProductDto dto){
         this.name = dto.name();
@@ -35,6 +38,7 @@ public class Product {
         this.price = dto.price();
         this.date = LocalDate.now();
         this.status = Status.DISPONIVEL;
+        this.category = dto.category();
     }
 
     public void update(ProductDto dto) {
@@ -49,6 +53,9 @@ public class Product {
         }
         if (dto.status() != null ){
             this.status = dto.status();
+        }
+        if (dto.category() != null) {
+            this.category = dto.category();
         }
     }
 }

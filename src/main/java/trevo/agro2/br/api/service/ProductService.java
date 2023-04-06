@@ -22,7 +22,7 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public ResponseEntity<ResponseModel> register(@RequestBody ProductDto dto) {
+    public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDto dto) {
         Product product = new Product(dto);
         productRepository.save(product);
         return new ResponseEntity<>(new ResponseModelObject("Produto salvo com sucesso", product), HttpStatus.CREATED);

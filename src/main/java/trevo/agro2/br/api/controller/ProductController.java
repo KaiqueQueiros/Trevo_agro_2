@@ -1,5 +1,8 @@
 package trevo.agro2.br.api.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,29 +15,42 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("product")
+
 public class ProductController {
     @Autowired
     ProductService productService;
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Cadastra um novo produto", tags = {"Product"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Sucessful Operation"),
+            @ApiResponse(responseCode = "400", description = "Failed Operation"),
+    })
     public ResponseEntity<?> register(@RequestBody @Valid ProductDto dto) {
         return productService.register(dto);
     }
 
     @GetMapping(value = "/list")
+    @Operation(summary = "Lista todos os produtos cadastrados", tags = {"Product"})
     public ResponseEntity<?> list() {
         return productService.list();
     }
+
     @GetMapping(value = "/find/{id}")
+    @Operation(summary = "Busca detalhada de um produto", tags = {"Product"})
     public ResponseEntity<?> find(@PathVariable UUID id) {
         return productService.findByName(id);
     }
+
     @DeleteMapping(value = "delete/{id}")
+    @Operation(summary = "Exclui um produto pelo identificador", tags = {"Product"})
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return productService.delete(id);
     }
+
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id,@RequestBody ProductDto dto) {
-        return productService.update(dto,id);
+    @Operation(summary = "Atualiza um produto pelo seu identificador", tags = {"Product"})
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody ProductDto dto) {
+        return productService.update(dto, id);
     }
 }
