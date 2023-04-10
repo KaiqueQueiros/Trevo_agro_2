@@ -1,13 +1,12 @@
 package trevo.agro2.br.api.model;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import trevo.agro2.br.api.dto.Category;
-import trevo.agro2.br.api.dto.ProductDto;
-import trevo.agro2.br.api.dto.Status;
+import trevo.agro2.br.api.dto.product.Category;
+import trevo.agro2.br.api.dto.product.ProductDto;
+import trevo.agro2.br.api.dto.product.Status;
 import java.time.LocalDate;
 import java.util.UUID;
 

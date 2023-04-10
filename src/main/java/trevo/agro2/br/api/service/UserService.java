@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import trevo.agro2.br.api.dto.UserDto;
-import trevo.agro2.br.api.dto.UserTokenService;
+import trevo.agro2.br.api.dto.user.UserDto;
+import trevo.agro2.br.api.dto.user.UserTokenService;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
 import trevo.agro2.br.api.exceptions.models.UnauthorizedException;
 import trevo.agro2.br.api.model.User;
@@ -22,7 +22,6 @@ import trevo.agro2.br.api.security.TokenService;
 import trevo.agro2.br.api.utils.ResponseModelMessage;
 import trevo.agro2.br.api.utils.ResponseModelObject;
 import trevo.agro2.br.api.utils.ResponseModelToken;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,16 +37,12 @@ public class UserService {
     @Autowired
     TokenService tokenService;
 
-    public UserService(AuthenticationManager manager) {
-        this.manager = manager;
-    }
 
     public ResponseEntity<?> register(@RequestBody @Valid User user) {
         if (userRepository.existsByLogin(user.getLogin())) {
             throw new BadRequestException("Email já em uso");
         }
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//        var token = new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return new ResponseEntity<>(new ResponseModelObject("Usuario " + user.getName() + " cadastrado", user), HttpStatus.CREATED);
     }
@@ -65,18 +60,18 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelObject("Lista de usuarios", dtoList), HttpStatus.OK);
     }
 
-//    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User dto) {
-//        User user = userRepository.findById(id).orElse(null);
-//        if (!userRepository.existsById(id) || user == null) {
-//            throw new BadRequestException("Usuario não encontrado");
-//        }
-//        if (userRepository.existsByEmail(dto.getEmail())) {
-//            throw new BadRequestException("Email já em uso");
-//        }
-//        user.update(dto);
-//        userRepository.save(user);
-//        return new ResponseEntity<>(new ResponseModelObject("Usuario " + user.getName() + " atualizado", user), HttpStatus.OK);
-//    }
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User dto) {
+        User user = userRepository.findById(id).orElse(null);
+        if (!userRepository.existsById(id) || user == null) {
+            throw new BadRequestException("Usuario não encontrado");
+        }
+        if (userRepository.existsByLogin(dto.getLogin())) {
+            throw new BadRequestException("Email já em uso");
+        }
+        user.update(dto);
+        userRepository.save(user);
+        return new ResponseEntity<>(new ResponseModelObject("Usuario " + user.getName() + " atualizado", user), HttpStatus.OK);
+    }
 
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!userRepository.existsById(id)) {

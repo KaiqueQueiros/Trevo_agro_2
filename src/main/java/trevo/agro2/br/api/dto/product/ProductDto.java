@@ -1,7 +1,9 @@
-package trevo.agro2.br.api.dto;
+package trevo.agro2.br.api.dto.product;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import trevo.agro2.br.api.dto.product.Category;
+import trevo.agro2.br.api.dto.product.Status;
 
 public record ProductDto(
         @NotEmpty(message = "Necessario informar o nome do produto")

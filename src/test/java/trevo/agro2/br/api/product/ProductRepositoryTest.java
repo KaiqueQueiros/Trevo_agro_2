@@ -7,9 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
-import trevo.agro2.br.api.dto.ProductDto;
+import trevo.agro2.br.api.dto.product.ProductDto;
 import trevo.agro2.br.api.model.Product;
 import trevo.agro2.br.api.repository.ProductRepository;
 

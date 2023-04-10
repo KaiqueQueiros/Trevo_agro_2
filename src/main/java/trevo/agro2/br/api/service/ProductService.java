@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import trevo.agro2.br.api.dto.ProductDto;
+import trevo.agro2.br.api.dto.product.ProductDto;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
 import trevo.agro2.br.api.model.Product;
 import trevo.agro2.br.api.repository.ProductRepository;
@@ -49,7 +49,6 @@ public class ProductService {
         productRepository.deleteById(id);
         return new ResponseEntity<>(new ResponseModelMessage("Produto excluido"),HttpStatus.OK);
     }
-
 
     public ResponseEntity<ResponseModel> update(@RequestBody @Valid ProductDto dto, @PathVariable UUID id) {
         if (!productRepository.existsById(id)){

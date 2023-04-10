@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Service
 public class TokenService {
-    public static final int TOKEN_EXPIRATE = 850000_000;
+    public static final int TOKEN_EXPIRATE = 8500_000;
     @Value("${api.security.token.secret}")
     private String secret;
 

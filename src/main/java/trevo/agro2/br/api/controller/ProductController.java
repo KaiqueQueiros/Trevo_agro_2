@@ -1,16 +1,13 @@
 package trevo.agro2.br.api.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import trevo.agro2.br.api.dto.ProductDto;
+import trevo.agro2.br.api.dto.product.ProductDto;
 import trevo.agro2.br.api.service.ProductService;
 
 import java.util.UUID;
@@ -24,10 +21,6 @@ public class ProductController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Cadastra um novo produto", tags = {"Product"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Sucessful Operation"),
-            @ApiResponse(responseCode = "400", description = "Failed Operation"),
-    })
     public ResponseEntity<?> register(@RequestBody @Valid ProductDto dto) {
         return productService.register(dto);
     }
@@ -44,7 +37,7 @@ public class ProductController {
         return productService.findByName(id);
     }
 
-    @DeleteMapping(value = "delete/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     @Operation(summary = "Exclui um produto pelo identificador", tags = {"Product"})
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return productService.delete(id);
