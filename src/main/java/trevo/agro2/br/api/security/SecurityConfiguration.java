@@ -28,12 +28,12 @@ public class SecurityConfiguration {
 
                 .requestMatchers(HttpMethod.GET,"/user/list").hasRole("ADMINISTRADOR")
                 .requestMatchers(HttpMethod.DELETE,"/user/delete/**").hasRole("ADMINISTRADOR")
-                .requestMatchers(HttpMethod.POST,"/user/register").hasRole("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.POST,"/user/register").hasRole("ADMINISTRADOR") 
 
                 .requestMatchers(HttpMethod.POST,"/product/register").hasAnyRole("ADMINISTRADOR","COLABORADOR")
                 .requestMatchers(HttpMethod.GET,"/product/list").hasAnyRole("ADMINISTRADOR","COLABORADOR")
-                .requestMatchers(HttpMethod.PUT,"/product/update/**").hasAnyRole("ADMINISTRADOR","COLABORADOR")
-                .requestMatchers(HttpMethod.DELETE,"/product/delete").hasAnyRole("ADMINISTRADOR","COLABORADOR")
+                .requestMatchers(HttpMethod.PUT,"/product/update/**").hasAnyRole("ADMINISTRADOR")
+                .requestMatchers(HttpMethod.DELETE,"/product/delete/**").hasAnyRole("ADMINISTRADOR")
 
                 .requestMatchers(HttpMethod.POST,"/budget/register").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
                 .requestMatchers(HttpMethod.GET,"/budget/list").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
