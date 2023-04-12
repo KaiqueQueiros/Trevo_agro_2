@@ -31,13 +31,14 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.POST,"/user/register").hasRole("ADMINISTRADOR") 
 
                 .requestMatchers(HttpMethod.POST,"/product/register").hasAnyRole("ADMINISTRADOR","COLABORADOR")
-                .requestMatchers(HttpMethod.GET,"/product/list").hasAnyRole("ADMINISTRADOR","COLABORADOR")
+                .requestMatchers(HttpMethod.GET,"/product/list").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
+                .requestMatchers(HttpMethod.GET,"/find/**").hasAnyRole("ADMINISTRADOR","COLABORADOR","CLIENTE")
                 .requestMatchers(HttpMethod.PUT,"/product/update/**").hasAnyRole("ADMINISTRADOR")
                 .requestMatchers(HttpMethod.DELETE,"/product/delete/**").hasAnyRole("ADMINISTRADOR")
 
                 .requestMatchers(HttpMethod.POST,"/budget/register").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
-                .requestMatchers(HttpMethod.GET,"/budget/list").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
-                .requestMatchers(HttpMethod.GET,"/budget/find/**").hasAnyRole("ADMINISTRADOR","CLIENTE","COLABORADOR")
+                .requestMatchers(HttpMethod.GET,"/budget/list").hasAnyRole("ADMINISTRADOR","COLABORADOR")
+                .requestMatchers(HttpMethod.GET,"/budget/find/**").hasAnyRole("ADMINISTRADOR","COLABORADOR")
                 .requestMatchers(HttpMethod.PUT,"/budget/update/**").hasAnyRole("ADMINISTRADOR","COLABORADOR")
                 .requestMatchers(HttpMethod.DELETE,"/budget/delete/**").hasAnyRole("ADMINISTRADOR","COLABORADOR")
 
