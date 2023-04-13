@@ -5,7 +5,10 @@ import jakarta.validation.constraints.NotEmpty;
 import trevo.agro2.br.api.dto.product.Category;
 import trevo.agro2.br.api.dto.product.Status;
 
+import java.util.UUID;
+
 public record ProductDto(
+        UUID id,
         @NotEmpty(message = "Necessario informar o nome do produto")
         @Schema(description = "Nome de um produto",example = "Nome de maquinas que a trevo produz")
         String name,

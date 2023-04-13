@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import trevo.agro2.br.api.exceptions.models.UnauthorizedException;
 import trevo.agro2.br.api.model.User;
 import trevo.agro2.br.api.repository.UserRepository;
 import java.io.IOException;

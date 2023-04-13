@@ -4,11 +4,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import trevo.agro2.br.api.dto.user.RoleEnum;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
@@ -24,24 +25,29 @@ import java.util.UUID;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-    @Column(name = "name")
-    @NotEmpty(message = "Nome de usuario obrigatorio")
+    private Long id;
+    @Column(name = "name",nullable = false)
     private String name;
     @Column(unique = true,nullable = false)
     @Email(message = "Email inválido")
-    @NotEmpty(message = "Insira seu email")
     private String login;
-    @NotEmpty(message = "Informe um password")
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    private RoleEnum roles;
+    private RoleEnum role;
     @Column(name = "date",length = 50)
     private String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
+    public User(String name, String login, String password, RoleEnum role) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + roles.toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.toString()));
     }
     @Override
     public String getPassword() {
@@ -80,8 +86,8 @@ public class User implements UserDetails {
         if (dto.login != null ){
             this.login = dto.login;
         }
-        if (dto.roles != null ){
-            this.roles = dto.roles;
+        if (dto.role != null ){
+            this.role = dto.role;
         }
     }
 }

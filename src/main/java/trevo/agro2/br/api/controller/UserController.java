@@ -18,10 +18,13 @@ import java.util.UUID;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @PostMapping(value = "/login")
+    @Operation(summary = "Login na api e fornecendo o JTW",tags = "User")
+    public ResponseEntity<?> login(@RequestBody @Valid UserTokenService dto) {
+        return userService.token(dto);
+    }
 
     @PostMapping(value = "/register")
-    @Secured("ROLE_ADMINISTRADOR")
     @Operation(summary = "Cadastra um novo usuario na api",tags = "User",security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> register(@RequestBody @Valid User user) {
         return userService.register(user);
@@ -33,21 +36,14 @@ public class UserController {
         return userService.list();
     }
 
-    @PostMapping(value = "/login")
-    @Operation(summary = "Login na api e fornecendo o JTW",tags = "User")
-    public ResponseEntity<?> login(@RequestBody @Valid UserTokenService dto) {
-        return userService.token(dto);
-    }
-
     @PutMapping(value = "/update/{id}")
-    @Operation(summary = "Atualiza os dados do usuario",tags = "User")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User user) {
+    @Operation(summary = "Atualiza os dados do usuario",tags = "User",security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid User user) {
         return userService.update(id, user);
     }
     @DeleteMapping(value = "/delete/{id}")
-    @Secured("ROLE_ADMINISTRADOR")
-    @Operation(summary = "Deleta um usuario da api",tags = "User")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    @Operation(summary = "Deleta um usuario da api",tags = "User",security = { @SecurityRequirement(name = "bearer-key") })
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         return userService.delete(id);
     }
 }

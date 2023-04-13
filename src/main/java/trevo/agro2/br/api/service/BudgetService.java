@@ -33,7 +33,7 @@ public class BudgetService {
         Budget budget = new Budget(dto, products);
         budgetRepository.save(budget);
 
-        return new ResponseEntity<>(new ResponseModelObject(dto.name().split(" ")[0] + " ob  rigado por solicitar um orçamento em nosso site!" +
+        return new ResponseEntity<>(new ResponseModelObject(dto.name().split(" ")[0] + " obrigado por solicitar um orçamento em nosso site!" +
                 " Ficamos felizes em poder ajudá-lo e agradecemos pela confiança em nossos serviços." +
                 " Para fornecer um orçamento preciso, precisamos avaliar suas necessidades com mais detalhes." +
                 " Entraremos em contato em breve para obter mais informações e esclarecer quaisquer dúvidas." +
@@ -58,19 +58,12 @@ public class BudgetService {
         return new ResponseEntity<>(new ResponseModelObject("Detalhes do orçamento!", budget), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> detailsName(@PathVariable String name) {
-        List<Budget> budgetList = budgetRepository.findByName(name);
+    public ResponseEntity<?> detailsEmail(@PathVariable String email) {
+        List<Budget> budgetList = budgetRepository.findByEmail(email);
         if (budgetList.isEmpty()) {
             throw new NotFoundException("Insira o nome completo do cliente e tente novamente");
         }
-        return new ResponseEntity<>(new ResponseModelObject("Lista de pedidos de " + name + ": ", budgetList), HttpStatus.OK);
-    }
-    public ResponseEntity<?> detailsPhone(@PathVariable String email){
-        List<Budget> budgetList = budgetRepository.findByEmail(email);
-        if (budgetList.isEmpty()){
-            throw new NotFoundException("Insira o email correto do cliente e tente novamente");
-        }
-        return new ResponseEntity<>(new ResponseModelObject("Lista de pedidos desse cliente", budgetList), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseModelObject("Lista de pedidos: ", budgetList), HttpStatus.OK);
     }
 
     public ResponseEntity<?> delete(@PathVariable UUID id) {

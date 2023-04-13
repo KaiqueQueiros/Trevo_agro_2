@@ -37,7 +37,6 @@ public class UserService {
     @Autowired
     TokenService tokenService;
 
-
     public ResponseEntity<?> register(@RequestBody @Valid User user) {
         if (userRepository.existsByLogin(user.getLogin())) {
             throw new BadRequestException("Email já em uso");
@@ -60,7 +59,7 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelObject("Lista de usuarios", dtoList), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User dto) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid User dto) {
         User user = userRepository.findById(id).orElse(null);
         if (!userRepository.existsById(id) || user == null) {
             throw new BadRequestException("Usuario não encontrado");
@@ -69,28 +68,19 @@ public class UserService {
             throw new BadRequestException("Email já em uso");
         }
         user.update(dto);
+        if (dto.getPassword() != null){
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
         userRepository.save(user);
         return new ResponseEntity<>(new ResponseModelObject("Usuario " + user.getName() + " atualizado", user), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         if (!userRepository.existsById(id)) {
             throw new BadRequestException("Usuario inexistente");
         }
         userRepository.deleteById(id);
         return new ResponseEntity<>(new ResponseModelMessage("Usuario excluido"), HttpStatus.OK);
-    }
-
-    public ResponseEntity<?> validPassword(@RequestParam String login, @RequestParam String password) {
-        User user = userRepository.findByLogin(login);
-//        if (user.) {
-//            throw new UnauthorizedException("Usuário com esse email não tem permissão");
-//        }
-        boolean valid = passwordEncoder.matches(password, user.getPassword());
-        if (!valid) {
-            throw new UnauthorizedException("Usuário não tem permissão");
-        }
-        return new ResponseEntity<>(new ResponseModelMessage("Usuario permitido"), HttpStatus.OK);
     }
 
     public ResponseEntity<?> token(@RequestBody @Valid UserTokenService dto) {

@@ -22,6 +22,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("API.Trevo.SA")
                     .withSubject(user.getLogin())
+                    .withClaim("id", user.getId())
                     .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRATE))
                     .sign(algorithm);
         } catch (JWTCreationException e) {

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro2.br.api.dto.product.ProductDto;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
 import trevo.agro2.br.api.model.Product;
+import trevo.agro2.br.api.repository.BudgetRepository;
 import trevo.agro2.br.api.repository.ProductRepository;
 import trevo.agro2.br.api.utils.ResponseModel;
 import trevo.agro2.br.api.utils.ResponseModelMessage;
@@ -23,6 +24,9 @@ public class ProductService {
     ProductRepository productRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDto dto) {
+        if (productRepository.existsByName(dto.name())){
+            throw new BadRequestException("Nome de produto ja existe");
+        }
         Product product = new Product(dto);
         productRepository.save(product);
         return new ResponseEntity<>(new ResponseModelObject("Produto salvo com sucesso", product), HttpStatus.CREATED);
@@ -35,7 +39,7 @@ public class ProductService {
         }
         return new ResponseEntity<>(new ResponseModelObject("Lista de produtos", list), HttpStatus.OK);
     }
-    public ResponseEntity<ResponseModel> findByName(@PathVariable UUID id){
+    public ResponseEntity<ResponseModel> findById(@PathVariable UUID id){
         Product product = productRepository.findById(id).orElse(null);
         if (product == null){
             throw new BadRequestException("Produto não encontrado");
@@ -43,6 +47,7 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelObject("Detalhes do produto " + product.getName(),product),HttpStatus.OK);
     }
     public ResponseEntity<ResponseModel> delete(@PathVariable UUID id) {
+//        List<BudgetRepository> e
         if (!productRepository.existsById(id)){
             throw new BadRequestException("Produto não encontrado");
         }

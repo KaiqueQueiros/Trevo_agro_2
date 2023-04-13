@@ -3,8 +3,8 @@ package trevo.agro2.br.api.dto.budget;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-
 import java.util.List;
+import java.util.UUID;
 
 public record BudgetDTO(
         @NotEmpty(message = "Campo nome é obrigatorio")
@@ -20,6 +20,6 @@ public record BudgetDTO(
         String company,
         @JsonProperty("products")
         @NotEmpty(message = "É necessário informar pelo menos um produto de interesse")
-        List<Long> productIds
+        List<UUID> productIds
 ) {
 }

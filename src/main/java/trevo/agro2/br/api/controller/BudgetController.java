@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import trevo.agro2.br.api.dto.budget.BudgetDTO;
@@ -40,15 +39,11 @@ public class BudgetController {
     public ResponseEntity<?> detailsClientId(@PathVariable UUID id) {
         return service.detailsId(id);
     }
-    @GetMapping(value = "/find/name/{name}")
-    @Operation(summary = "Filtra orçamentos pelo nome",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
-    public ResponseEntity<?> detailsClientName(@PathVariable String name){
-        return service.detailsName(name);
-    }
+
     @GetMapping(value = "/find/email/{email}")
     @Operation(summary = "Filtra orçamentos pelo email",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
     public ResponseEntity<?> detailsClientEmail(@PathVariable String email) {
-        return service.detailsPhone(email);
+        return service.detailsEmail(email);
     }
 
     @PutMapping(value = "/update/{id}")

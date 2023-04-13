@@ -34,7 +34,7 @@ public class ProductController {
     @GetMapping(value = "/find/{id}")
     @Operation(summary = "Busca detalhada de um produto", tags = {"Product"})
     public ResponseEntity<?> find(@PathVariable UUID id) {
-        return productService.findByName(id);
+        return productService.findById(id);
     }
 
     @DeleteMapping(value = "/delete/{id}")
