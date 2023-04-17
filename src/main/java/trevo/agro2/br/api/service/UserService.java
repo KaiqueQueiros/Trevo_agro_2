@@ -87,11 +87,9 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelMessage("Usuario excluido"), HttpStatus.OK);
     }
 
-    public ResponseEntity<?>  token(@RequestBody @Valid UserTokenService dto) {
+    public ResponseEntity<?> token(@RequestBody @Valid UserTokenService dto) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
         Authentication auth = manager.authenticate(token);
         return new ResponseEntity<>(new ResponseModelToken(tokenService.token((User) auth.getPrincipal())), HttpStatus.OK);
     }
-
-
 }

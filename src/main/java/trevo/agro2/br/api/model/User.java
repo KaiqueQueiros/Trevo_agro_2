@@ -9,14 +9,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import trevo.agro2.br.api.dto.user.RoleEnum;
 import trevo.agro2.br.api.utils.CustomGrantedAuthoriry;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -57,7 +55,7 @@ public class User implements UserDetails {
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-            return List.of(new CustomGrantedAuthoriry("ROLE_" + role.toString()));
+        return List.of(new CustomGrantedAuthoriry("ROLE_" + role.toString()));
     }
 
     @Override
