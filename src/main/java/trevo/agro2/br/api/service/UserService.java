@@ -11,11 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import trevo.agro2.br.api.dto.user.UserDto;
 import trevo.agro2.br.api.dto.user.UserTokenService;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
-import trevo.agro2.br.api.exceptions.models.UnauthorizedException;
 import trevo.agro2.br.api.model.User;
 import trevo.agro2.br.api.repository.UserRepository;
 import trevo.agro2.br.api.security.TokenService;
@@ -24,7 +22,6 @@ import trevo.agro2.br.api.utils.ResponseModelObject;
 import trevo.agro2.br.api.utils.ResponseModelToken;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -58,6 +55,13 @@ public class UserService {
         }
         return new ResponseEntity<>(new ResponseModelObject("Lista de usuarios", dtoList), HttpStatus.OK);
     }
+    public ResponseEntity<?> findUser(@PathVariable Long id){
+        if (!userRepository.existsById(id)){
+            throw new BadRequestException("Usuario não encontrado");
+        }
+        User user = userRepository.findById(id).orElse(null);
+        return new ResponseEntity<>(new ResponseModelObject("Detalhes do usuario de id : " + id,user),HttpStatus.OK);
+    }
 
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid User dto) {
         User user = userRepository.findById(id).orElse(null);
@@ -68,7 +72,7 @@ public class UserService {
             throw new BadRequestException("Email já em uso");
         }
         user.update(dto);
-        if (dto.getPassword() != null){
+        if (dto.getPassword() != null) {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
         }
         userRepository.save(user);
@@ -83,9 +87,11 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelMessage("Usuario excluido"), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> token(@RequestBody @Valid UserTokenService dto) {
+    public ResponseEntity<?>  token(@RequestBody @Valid UserTokenService dto) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
         Authentication auth = manager.authenticate(token);
         return new ResponseEntity<>(new ResponseModelToken(tokenService.token((User) auth.getPrincipal())), HttpStatus.OK);
     }
+
+
 }

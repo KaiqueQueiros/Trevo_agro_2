@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public interface BudgetRepository extends JpaRepository<Budget, UUID> {
     List<Budget> findByProducts(Product product);
-    List<Budget> findByName(String name);
     List<Budget> findByEmail(String email);
 
 }

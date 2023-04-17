@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import trevo.agro2.br.api.dto.budget.BudgetDTO;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
 
@@ -20,11 +21,22 @@ public class Budget {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @Column(name = "name",nullable = false)
+    @Length(max = 50)
     private String name;
+    @Column(name = "email",nullable = false)
+    @Length(max = 50)
     private String email;
+    @Column(name = "phone",nullable = false)
+    @Length(max = 50)
     private String phone;
+    @Column(name = "country",nullable = false)
+    @Length(max = 50)
     private String country;
+    @Column(name = "date")
     private LocalDate date;
+    @Column(name = "company",nullable = false)
+    @Length(max = 100)
     private String company;
     @ManyToMany
     @JoinTable

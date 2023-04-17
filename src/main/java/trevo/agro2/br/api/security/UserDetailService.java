@@ -1,4 +1,4 @@
-package trevo.agro2.br.api.service;
+package trevo.agro2.br.api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

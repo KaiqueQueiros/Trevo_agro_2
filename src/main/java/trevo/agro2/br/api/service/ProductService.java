@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import trevo.agro2.br.api.dto.product.ProductDto;
 import trevo.agro2.br.api.exceptions.models.BadRequestException;
+import trevo.agro2.br.api.model.Budget;
 import trevo.agro2.br.api.model.Product;
 import trevo.agro2.br.api.repository.BudgetRepository;
 import trevo.agro2.br.api.repository.ProductRepository;
@@ -22,6 +23,8 @@ import java.util.UUID;
 public class ProductService {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    private BudgetRepository budgetRepository;
 
     public ResponseEntity<ResponseModel> register(@RequestBody @Valid ProductDto dto) {
         if (productRepository.existsByName(dto.name())){
@@ -47,20 +50,23 @@ public class ProductService {
         return new ResponseEntity<>(new ResponseModelObject("Detalhes do produto " + product.getName(),product),HttpStatus.OK);
     }
     public ResponseEntity<ResponseModel> delete(@PathVariable UUID id) {
-//        List<BudgetRepository> e
+        Product product = productRepository.findById(id).orElse(null);
+        List<Budget> budgetRepositoryList = budgetRepository.findByProducts(product);
         if (!productRepository.existsById(id)){
             throw new BadRequestException("Produto não encontrado");
         }
-        productRepository.deleteById(id);
-        return new ResponseEntity<>(new ResponseModelMessage("Produto excluido"),HttpStatus.OK);
+        if (!budgetRepositoryList.isEmpty()){
+            productRepository.deleteById(id);
+            return new ResponseEntity<>(new ResponseModelMessage("Produto excluido"),HttpStatus.OK);
+        }
+        throw new BadRequestException("Produto relacionado com orçamentos!");
     }
 
     public ResponseEntity<ResponseModel> update(@RequestBody @Valid ProductDto dto, @PathVariable UUID id) {
-        if (!productRepository.existsById(id)){
+        Product product = productRepository.findById(id).orElse(null);
+        if (!productRepository.existsById(id) || product == null){
             throw new BadRequestException("Produto não encontrado");
         }
-        Product product = productRepository.findById(id).orElse(null);
-        assert product != null;
         product.update(dto);
         productRepository.save(product);
         return new ResponseEntity<>(new ResponseModelObject("Produto atualizado",product),HttpStatus.OK);

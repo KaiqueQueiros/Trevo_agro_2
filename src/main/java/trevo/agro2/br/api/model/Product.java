@@ -23,7 +23,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
-    @Column(name = "name",nullable = false)
+    @Column(name = "name",nullable = false,unique = true)
     private String name;
     @Column(name = "description",nullable = false)
     private String description;
