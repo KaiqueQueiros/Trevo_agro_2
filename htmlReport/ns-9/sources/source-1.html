@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Budget</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Budget (trevo.agro2.br.api.model)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Budget</td>
+<td class="coverageStat">
+  <span class="percent">
+    8,3%
+  </span>
+  <span class="absValue">
+    (1/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3,1%
+  </span>
+  <span class="absValue">
+    (1/32)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Budget$HibernateProxy$WMh7gGjp</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    8,3%
+  </span>
+  <span class="absValue">
+    (1/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    3,1%
+  </span>
+  <span class="absValue">
+    (1/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.model;
+&nbsp;
+&nbsp;import jakarta.persistence.*;
+&nbsp;import lombok.Getter;
+&nbsp;import lombok.NoArgsConstructor;
+&nbsp;import lombok.Setter;
+&nbsp;import org.hibernate.validator.constraints.Length;
+&nbsp;import trevo.agro2.br.api.dto.budget.BudgetDTO;
+&nbsp;import trevo.agro2.br.api.exceptions.models.BadRequestException;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Getter
+<b class="nc">&nbsp;@Setter</b>
+<b class="fc">&nbsp;@NoArgsConstructor</b>
+&nbsp;@Table(name = &quot;tb_budget&quot;)
+&nbsp;@Entity
+&nbsp;public class Budget {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.AUTO)
+<b class="nc">&nbsp;    private UUID id;</b>
+&nbsp;    @Column(name = &quot;name&quot;,nullable = false)
+&nbsp;    @Length(max = 50)
+<b class="nc">&nbsp;    private String name;</b>
+&nbsp;    @Column(name = &quot;email&quot;,nullable = false)
+&nbsp;    @Length(max = 50)
+<b class="nc">&nbsp;    private String email;</b>
+&nbsp;    @Column(name = &quot;phone&quot;,nullable = false)
+&nbsp;    @Length(max = 50)
+<b class="nc">&nbsp;    private String phone;</b>
+&nbsp;    @Column(name = &quot;country&quot;,nullable = false)
+&nbsp;    @Length(max = 50)
+<b class="nc">&nbsp;    private String country;</b>
+&nbsp;    @Column(name = &quot;date&quot;)
+<b class="nc">&nbsp;    private LocalDate date;</b>
+&nbsp;    @Column(name = &quot;company&quot;,nullable = false)
+&nbsp;    @Length(max = 100)
+<b class="nc">&nbsp;    private String company;</b>
+&nbsp;    @ManyToMany
+&nbsp;    @JoinTable
+&nbsp;            (
+&nbsp;                    name = &quot;TB_BUDGET_PRODUCT&quot;,
+&nbsp;                    joinColumns = {@JoinColumn(name = &quot;budget_id&quot;, referencedColumnName = &quot;id&quot;)},
+&nbsp;                    inverseJoinColumns = {@JoinColumn(name = &quot;product_id&quot;, referencedColumnName = &quot;id&quot;)}
+&nbsp;            )
+<b class="nc">&nbsp;    private List&lt;Product&gt; products;</b>
+<b class="nc">&nbsp;    public Budget(BudgetDTO dto, List&lt;Product&gt; products) {</b>
+<b class="nc">&nbsp;        this.name = dto.name();</b>
+<b class="nc">&nbsp;        this.email = dto.email();</b>
+<b class="nc">&nbsp;        this.phone = dto.phone();</b>
+<b class="nc">&nbsp;        this.country = dto.country();</b>
+<b class="nc">&nbsp;        this.date = LocalDate.now();</b>
+<b class="nc">&nbsp;        this.company = dto.company();</b>
+<b class="nc">&nbsp;        if (products.isEmpty()){</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;É necessário informar pelo menos um produto de interesse&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        this.products = products;</b>
+&nbsp;    }
+&nbsp;    public void update(BudgetDTO dto, List&lt;Product&gt; products) {
+<b class="nc">&nbsp;        if (dto.name() != null) {</b>
+<b class="nc">&nbsp;            this.name = dto.name();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (dto.email() != null) {</b>
+<b class="nc">&nbsp;            this.email = dto.email();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (dto.phone() != null) {</b>
+<b class="nc">&nbsp;            this.phone = dto.phone();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (dto.country() != null) {</b>
+<b class="nc">&nbsp;            this.country = dto.country();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (dto.company() != null) {</b>
+<b class="nc">&nbsp;            this.company = dto.company();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (products != null) {</b>
+<b class="nc">&nbsp;            this.products = products;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

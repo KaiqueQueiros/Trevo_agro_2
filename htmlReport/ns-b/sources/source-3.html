@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UserService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.service</a>
+</div>
+
+<h1>Coverage Summary for Class: UserService (trevo.agro2.br.api.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    16,7%
+  </span>
+  <span class="absValue">
+    (6/36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.service;
+&nbsp;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.security.authentication.AuthenticationManager;
+&nbsp;import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+&nbsp;import org.springframework.security.core.Authentication;
+&nbsp;import org.springframework.security.crypto.password.PasswordEncoder;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import trevo.agro2.br.api.dto.user.UserDto;
+&nbsp;import trevo.agro2.br.api.dto.user.UserTokenService;
+&nbsp;import trevo.agro2.br.api.exceptions.models.BadRequestException;
+&nbsp;import trevo.agro2.br.api.model.User;
+&nbsp;import trevo.agro2.br.api.repository.UserRepository;
+&nbsp;import trevo.agro2.br.api.security.TokenService;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModelMessage;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModelObject;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModelToken;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class UserService {</b>
+&nbsp;    @Autowired
+&nbsp;    UserRepository userRepository;
+&nbsp;    @Autowired
+&nbsp;    PasswordEncoder passwordEncoder;
+&nbsp;    @Autowired
+&nbsp;    AuthenticationManager manager;
+&nbsp;    @Autowired
+&nbsp;    TokenService tokenService;
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody @Valid User user) {
+<b class="fc">&nbsp;        if (userRepository.existsByLogin(user.getLogin())) {</b>
+<b class="fc">&nbsp;            throw new BadRequestException(&quot;Email já em uso&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        user.setPassword(passwordEncoder.encode(user.getPassword()));</b>
+<b class="nc">&nbsp;        userRepository.save(user);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Usuario &quot; + user.getName() + &quot; cadastrado&quot;, user), HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; list() {
+<b class="nc">&nbsp;        List&lt;User&gt; userList = userRepository.findAll();</b>
+<b class="nc">&nbsp;        if (userList.isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Nenhum usuario encontrado&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        List&lt;UserDto&gt; dtoList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (User user : userList) {</b>
+<b class="nc">&nbsp;            UserDto userDto = new UserDto(user);</b>
+<b class="nc">&nbsp;            dtoList.add(userDto);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Lista de usuarios&quot;, dtoList), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;    public ResponseEntity&lt;?&gt; findUser(@PathVariable Long id){
+<b class="nc">&nbsp;        if (!userRepository.existsById(id)){</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Usuario não encontrado&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        User user = userRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Detalhes do usuario de id : &quot; + id,user),HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; update(@PathVariable Long id, @RequestBody @Valid User dto) {
+<b class="nc">&nbsp;        User user = userRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        if (!userRepository.existsById(id) || user == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Usuario não encontrado&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (userRepository.existsByLogin(dto.getLogin())) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Email já em uso&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        user.update(dto);</b>
+<b class="nc">&nbsp;        if (dto.getPassword() != null) {</b>
+<b class="nc">&nbsp;            user.setPassword(passwordEncoder.encode(dto.getPassword()));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        userRepository.save(user);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Usuario &quot; + user.getName() + &quot; atualizado&quot;, user), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable Long id) {
+<b class="nc">&nbsp;        if (!userRepository.existsById(id)) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Usuario inexistente&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        userRepository.deleteById(id);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelMessage(&quot;Usuario excluido&quot;), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;?&gt; token(@RequestBody @Valid UserTokenService dto) {
+<b class="fc">&nbsp;        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());</b>
+<b class="fc">&nbsp;        Authentication auth = manager.authenticate(token);</b>
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelToken(tokenService.token((User) auth.getPrincipal())), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

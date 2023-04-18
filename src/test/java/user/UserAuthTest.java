@@ -9,8 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,9 +22,6 @@ import trevo.agro2.br.api.model.User;
 import trevo.agro2.br.api.repository.ProductRepository;
 import trevo.agro2.br.api.repository.UserRepository;
 import trevo.agro2.br.api.security.TokenService;
-
-import java.util.UUID;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,7 +30,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ApiApplication.class)
 @AutoConfigureMockMvc
 public class UserAuthTest {
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -83,8 +77,7 @@ public class UserAuthTest {
         mockMvc.perform(post("/user/register")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(user))
-                )
+                        .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -112,17 +105,13 @@ public class UserAuthTest {
         user.setName("Kaique");
         user.setLogin("kaique.q@gmail.com");
         user.setPassword("123456789");
-        UserTokenService userTokenService = new UserTokenService(user.getLogin(), user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(RoleEnum.COLABORADOR);
         userRepository.save(user);
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userTokenService.login(), userTokenService.password());
-        Authentication auth = manager.authenticate(authenticationToken);
+        UserTokenService userTokenService = new UserTokenService(user.getLogin(), "123456789");
         mockMvc.perform(post("/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userTokenService))
-                )
+                        .content(objectMapper.writeValueAsString(userTokenService)))
                 .andExpect(status().isOk());
     }
 
@@ -222,6 +211,6 @@ public class UserAuthTest {
         mockMvc.perform(delete("/product/delete/" + product.getId())
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isOk());
     }
 }

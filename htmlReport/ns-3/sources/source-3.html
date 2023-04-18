@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UserController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: UserController (trevo.agro2.br.api.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UserController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.controller;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import trevo.agro2.br.api.dto.user.UserTokenService;
+&nbsp;import trevo.agro2.br.api.model.User;
+&nbsp;import trevo.agro2.br.api.service.UserService;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(value = &quot;user&quot;)
+<b class="fc">&nbsp;public class UserController {</b>
+&nbsp;    @Autowired
+&nbsp;    private UserService userService;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/login&quot;)
+&nbsp;    @Operation(summary = &quot;Login na api e fornecendo o JTW&quot;, tags = &quot;User&quot;)
+&nbsp;    public ResponseEntity&lt;?&gt; login(@RequestBody @Valid UserTokenService dto) {
+<b class="fc">&nbsp;        return userService.token(dto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/register&quot;, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+&nbsp;    @Operation(summary = &quot;Cadastra um novo usuario na api&quot;, tags = &quot;User&quot;, security = {@SecurityRequirement(name = &quot;bearer-key&quot;)})
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody User user) {
+<b class="fc">&nbsp;        return userService.register(user);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/find/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Consulta um usuario especifico na api&quot;, tags = &quot;User&quot;, security = {@SecurityRequirement(name = &quot;bearer-key&quot;)})
+&nbsp;    public ResponseEntity&lt;?&gt; findUser(@PathVariable Long id) {
+<b class="nc">&nbsp;        return userService.findUser(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/list&quot;)
+&nbsp;    @Operation(summary = &quot;Lista os usuarios da api&quot;, tags = &quot;User&quot;, security = {@SecurityRequirement(name = &quot;bearer-key&quot;)})
+&nbsp;    public ResponseEntity&lt;?&gt; list() {
+<b class="nc">&nbsp;        return userService.list();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(value = &quot;/update/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Atualiza os dados do usuario&quot;, tags = &quot;User&quot;, security = {@SecurityRequirement(name = &quot;bearer-key&quot;)})
+&nbsp;    public ResponseEntity&lt;?&gt; update(@PathVariable Long id, @RequestBody @Valid User user) {
+<b class="nc">&nbsp;        return userService.update(id, user);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(value = &quot;/delete/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Deleta um usuario da api&quot;, tags = &quot;User&quot;, security = {@SecurityRequirement(name = &quot;bearer-key&quot;)})
+&nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable Long id) {
+<b class="nc">&nbsp;        return userService.delete(id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

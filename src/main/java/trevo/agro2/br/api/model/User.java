@@ -43,15 +43,6 @@ public class User implements UserDetails {
     @Column(name = "date", length = 50)
     private String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
-
-    public User(String name, String login, String password, RoleEnum role) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
-
-
     @Override
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {

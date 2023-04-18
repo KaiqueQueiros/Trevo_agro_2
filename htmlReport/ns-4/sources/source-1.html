@@ -1,0 +1,128 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BudgetDTO</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.dto.budget</a>
+</div>
+
+<h1>Coverage Summary for Class: BudgetDTO (trevo.agro2.br.api.dto.budget)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BudgetDTO</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.dto.budget;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.annotation.JsonProperty;
+&nbsp;import jakarta.validation.constraints.Email;
+&nbsp;import jakarta.validation.constraints.NotEmpty;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+<b class="nc">&nbsp;public record BudgetDTO(</b>
+&nbsp;        @NotEmpty(message = &quot;Campo nome é obrigatorio&quot;)
+&nbsp;        String name,
+&nbsp;        @Email(message = &quot;Informe um email valido&quot;)
+&nbsp;        @NotEmpty(message = &quot;Informe o email&quot;)
+&nbsp;        String email,
+&nbsp;        @NotEmpty(message = &quot;Informe seu telefone&quot;)
+&nbsp;        String phone,
+&nbsp;        @NotEmpty(message = &quot;Informe qual seu país&quot;)
+&nbsp;        String country,
+&nbsp;        @NotEmpty(message = &quot;Informe o nome de sua empresa&quot;)
+&nbsp;        String company,
+&nbsp;        @JsonProperty(&quot;products&quot;)
+&nbsp;        @NotEmpty(message = &quot;É necessário informar pelo menos um produto de interesse&quot;)
+&nbsp;        List&lt;UUID&gt; productIds
+&nbsp;) {
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

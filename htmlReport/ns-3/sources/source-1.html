@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BudgetController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: BudgetController (trevo.agro2.br.api.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BudgetController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    14,3%
+  </span>
+  <span class="absValue">
+    (1/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.controller;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import trevo.agro2.br.api.dto.budget.BudgetDTO;
+&nbsp;import trevo.agro2.br.api.service.BudgetService;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;budget&quot;)
+<b class="fc">&nbsp;public class BudgetController {</b>
+&nbsp;    @Autowired
+&nbsp;    private BudgetService service;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/register&quot;)
+&nbsp;    @Operation(summary = &quot;Cadastra um novo orçamento&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody @Valid BudgetDTO dto) {
+<b class="nc">&nbsp;        return service.register(dto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/list&quot;)
+&nbsp;    @Operation(summary = &quot;Lista todos os orçamentos&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; list() {
+<b class="nc">&nbsp;        return service.list();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(value = &quot;/delete/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Deleta orçamentos de clientes&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable UUID id) {
+<b class="nc">&nbsp;        return service.delete(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/find/id/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Filtra orçamentos pelo id&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; detailsClientId(@PathVariable UUID id) {
+<b class="nc">&nbsp;        return service.detailsId(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/find/email/{email}&quot;)
+&nbsp;    @Operation(summary = &quot;Filtra orçamentos pelo email&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; detailsClientEmail(@PathVariable String email) {
+<b class="nc">&nbsp;        return service.detailsEmail(email);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(value = &quot;/update/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Atualiza orçamentos pelo id&quot;,tags = &quot;Budget&quot;,security = { @SecurityRequirement(name = &quot;bearer-key&quot;) })
+&nbsp;    public ResponseEntity&lt;?&gt; update(@PathVariable UUID id, @RequestBody @Valid BudgetDTO dto) {
+<b class="nc">&nbsp;        return service.update(dto, id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

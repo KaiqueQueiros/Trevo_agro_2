@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductService (trevo.agro2.br.api.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    53,6%
+  </span>
+  <span class="absValue">
+    (15/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.service;
+&nbsp;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.HttpStatus;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;import org.springframework.web.bind.annotation.PathVariable;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import trevo.agro2.br.api.dto.product.ProductDto;
+&nbsp;import trevo.agro2.br.api.exceptions.models.BadRequestException;
+&nbsp;import trevo.agro2.br.api.model.Budget;
+&nbsp;import trevo.agro2.br.api.model.Product;
+&nbsp;import trevo.agro2.br.api.repository.BudgetRepository;
+&nbsp;import trevo.agro2.br.api.repository.ProductRepository;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModel;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModelMessage;
+&nbsp;import trevo.agro2.br.api.utils.ResponseModelObject;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@Service
+<b class="fc">&nbsp;public class ProductService {</b>
+&nbsp;    @Autowired
+&nbsp;    ProductRepository productRepository;
+&nbsp;    @Autowired
+&nbsp;    private BudgetRepository budgetRepository;
+&nbsp;
+&nbsp;    public ResponseEntity&lt;ResponseModel&gt; register(@RequestBody @Valid ProductDto dto) {
+<b class="fc">&nbsp;        if (productRepository.existsByName(dto.name())) {</b>
+<b class="fc">&nbsp;            throw new BadRequestException(&quot;Nome de produto ja existe&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        Product product = new Product(dto);</b>
+<b class="fc">&nbsp;        productRepository.save(product);</b>
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Produto salvo com sucesso&quot;, product), HttpStatus.CREATED);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;ResponseModel&gt; list() {
+<b class="fc">&nbsp;        List&lt;Product&gt; list = productRepository.findAll();</b>
+<b class="fc">&nbsp;        if (list.isEmpty()) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Lista esta vazia&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Lista de produtos&quot;, list), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;ResponseModel&gt; findById(@PathVariable UUID id) {
+<b class="nc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        if (product == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Produto não encontrado&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Detalhes do produto &quot; + product.getName(), product), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;ResponseModel&gt; delete(@PathVariable UUID id) {
+<b class="fc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
+<b class="fc">&nbsp;        List&lt;Budget&gt; budgetRepositoryList = budgetRepository.findByProducts(product);</b>
+<b class="fc">&nbsp;        if (!productRepository.existsById(id) || product == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Produto não encontrado&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (budgetRepositoryList.isEmpty()) {</b>
+<b class="fc">&nbsp;            productRepository.deleteById(id);</b>
+<b class="fc">&nbsp;            return new ResponseEntity&lt;&gt;(new ResponseModelMessage(&quot;Produto excluido&quot;), HttpStatus.OK);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new BadRequestException(&quot;Produto relacionado com orçamentos!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public ResponseEntity&lt;ResponseModel&gt; update(@RequestBody @Valid ProductDto dto, @PathVariable UUID id) {
+<b class="nc">&nbsp;        Product product = productRepository.findById(id).orElse(null);</b>
+<b class="nc">&nbsp;        if (!productRepository.existsById(id) || product == null) {</b>
+<b class="nc">&nbsp;            throw new BadRequestException(&quot;Produto não encontrado&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        product.update(dto);</b>
+<b class="nc">&nbsp;        productRepository.save(product);</b>
+<b class="nc">&nbsp;        return new ResponseEntity&lt;&gt;(new ResponseModelObject(&quot;Produto atualizado&quot;, product), HttpStatus.OK);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProductController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">trevo.agro2.br.api.controller</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductController (trevo.agro2.br.api.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (4/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package trevo.agro2.br.api.controller;
+&nbsp;
+&nbsp;import io.swagger.v3.oas.annotations.Operation;
+&nbsp;import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+&nbsp;import jakarta.validation.Valid;
+&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+&nbsp;import org.springframework.http.MediaType;
+&nbsp;import org.springframework.http.ResponseEntity;
+&nbsp;import org.springframework.web.bind.annotation.*;
+&nbsp;import trevo.agro2.br.api.dto.product.ProductDto;
+&nbsp;import trevo.agro2.br.api.service.ProductService;
+&nbsp;
+&nbsp;import java.util.UUID;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;product&quot;)
+&nbsp;@SecurityRequirement(name = &quot;bearer-key&quot;)
+<b class="fc">&nbsp;public class ProductController {</b>
+&nbsp;    @Autowired
+&nbsp;    ProductService productService;
+&nbsp;
+&nbsp;    @PostMapping(value = &quot;/register&quot;, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+&nbsp;    @Operation(summary = &quot;Cadastra um novo produto&quot;, tags = {&quot;Product&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; register(@RequestBody @Valid ProductDto dto) {
+<b class="fc">&nbsp;        return productService.register(dto);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/list&quot;)
+&nbsp;    @Operation(summary = &quot;Lista todos os produtos cadastrados&quot;, tags = {&quot;Product&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; list() {
+<b class="fc">&nbsp;        return productService.list();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @GetMapping(value = &quot;/find/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Busca detalhada de um produto&quot;, tags = {&quot;Product&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; find(@PathVariable UUID id) {
+<b class="nc">&nbsp;        return productService.findById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @DeleteMapping(value = &quot;/delete/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Exclui um produto pelo identificador&quot;, tags = {&quot;Product&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; delete(@PathVariable UUID id) {
+<b class="fc">&nbsp;        return productService.delete(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PutMapping(value = &quot;/update/{id}&quot;)
+&nbsp;    @Operation(summary = &quot;Atualiza um produto pelo seu identificador&quot;, tags = {&quot;Product&quot;})
+&nbsp;    public ResponseEntity&lt;?&gt; update(@PathVariable UUID id, @RequestBody ProductDto dto) {
+<b class="nc">&nbsp;        return productService.update(dto, id);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-18 14:53</div>
+</div>
+</body>
+</html>
