@@ -11,6 +11,8 @@ import trevo.agro2.br.api.dto.user.UserTokenService;
 import trevo.agro2.br.api.model.User;
 import trevo.agro2.br.api.service.UserService;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping(value = "user")
 public class UserController {
@@ -31,7 +33,7 @@ public class UserController {
 
     @GetMapping(value = "/find/{id}")
     @Operation(summary = "Consulta um usuario especifico na api", tags = "User", security = {@SecurityRequirement(name = "bearer-key")})
-    public ResponseEntity<?> findUser(@PathVariable Long id) {
+    public ResponseEntity<?> findUser(@PathVariable UUID id) {
         return userService.findUser(id);
     }
 
@@ -43,13 +45,13 @@ public class UserController {
 
     @PutMapping(value = "/update/{id}")
     @Operation(summary = "Atualiza os dados do usuario", tags = "User", security = {@SecurityRequirement(name = "bearer-key")})
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid User user) {
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User user) {
         return userService.update(id, user);
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @Operation(summary = "Deleta um usuario da api", tags = "User", security = {@SecurityRequirement(name = "bearer-key")})
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         return userService.delete(id);
     }
 }

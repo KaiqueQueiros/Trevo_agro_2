@@ -22,6 +22,7 @@ import trevo.agro2.br.api.utils.ResponseModelObject;
 import trevo.agro2.br.api.utils.ResponseModelToken;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -55,7 +56,7 @@ public class UserService {
         }
         return new ResponseEntity<>(new ResponseModelObject("Lista de usuarios", dtoList), HttpStatus.OK);
     }
-    public ResponseEntity<?> findUser(@PathVariable Long id){
+    public ResponseEntity<?> findUser(@PathVariable UUID id){
         if (!userRepository.existsById(id)){
             throw new BadRequestException("Usuario não encontrado");
         }
@@ -63,7 +64,7 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelObject("Detalhes do usuario de id : " + id,user),HttpStatus.OK);
     }
 
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody @Valid User dto) {
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid User dto) {
         User user = userRepository.findById(id).orElse(null);
         if (!userRepository.existsById(id) || user == null) {
             throw new BadRequestException("Usuario não encontrado");
@@ -79,7 +80,7 @@ public class UserService {
         return new ResponseEntity<>(new ResponseModelObject("Usuario " + user.getName() + " atualizado", user), HttpStatus.OK);
     }
 
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable UUID id) {
         if (!userRepository.existsById(id)) {
             throw new BadRequestException("Usuario inexistente");
         }

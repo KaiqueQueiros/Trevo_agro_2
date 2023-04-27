@@ -3,7 +3,7 @@ create table tb_budget (
     company varchar(100) not null,
     country varchar(50) not null,
     date date,
-    varchar(50) not null,
+    email varchar(50) not null,
     name varchar(50) not null,
     phone varchar(50) not null,
     primary key (id)

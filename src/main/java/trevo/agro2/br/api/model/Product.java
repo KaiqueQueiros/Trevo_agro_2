@@ -11,7 +11,6 @@ import trevo.agro2.br.api.dto.product.Status;
 import java.time.LocalDate;
 import java.util.UUID;
 
-
 @Table(name = "tb_product")
 @Setter
 @Getter
@@ -23,17 +22,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private UUID id;
-    @Column(name = "name",nullable = false,unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @Column(name = "description",nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "Text")
     private String description;
-    @Column(name = "price",nullable = false)
+    @Column(name = "price", nullable = false)
     private Double price;
     private LocalDate date;
+    @Enumerated(EnumType.STRING)
     private Status status;
+    @Enumerated(EnumType.STRING)
     private Category category;
 
-    public Product(ProductDto dto){
+    public Product(ProductDto dto) {
         this.name = dto.name();
         this.description = dto.description();
         this.price = dto.price();
@@ -49,10 +50,10 @@ public class Product {
         if (dto.description() != null) {
             this.description = dto.description();
         }
-        if (dto.price() != null){
+        if (dto.price() != null) {
             this.price = dto.price();
         }
-        if (dto.status() != null ){
+        if (dto.status() != null) {
             this.status = dto.status();
         }
         if (dto.category() != null) {

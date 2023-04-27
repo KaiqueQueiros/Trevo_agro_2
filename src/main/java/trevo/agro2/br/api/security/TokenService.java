@@ -7,7 +7,6 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import trevo.agro2.br.api.model.User;
-
 import java.util.Date;
 
 @Service
@@ -22,7 +21,7 @@ public class TokenService {
             return JWT.create()
                     .withIssuer("API.Trevo.SA")
                     .withSubject(user.getLogin())
-                    .withClaim("id", user.getId())
+                    .withClaim("id", user.getId().toString())
                     .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRATE))
                     .sign(algorithm);
         } catch (JWTCreationException e) {

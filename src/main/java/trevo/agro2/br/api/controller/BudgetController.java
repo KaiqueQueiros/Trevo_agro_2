@@ -12,42 +12,43 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("budget")
+@SecurityRequirement(name = "bearer-key")
 public class BudgetController {
     @Autowired
     private BudgetService service;
 
     @PostMapping(value = "/register")
-    @Operation(summary = "Cadastra um novo orçamento",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Cadastra um novo orçamento",tags = "Budget")
     public ResponseEntity<?> register(@RequestBody @Valid BudgetDTO dto) {
         return service.register(dto);
     }
 
     @GetMapping(value = "/list")
-    @Operation(summary = "Lista todos os orçamentos",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Lista todos os orçamentos",tags = "Budget")
     public ResponseEntity<?> list() {
         return service.list();
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    @Operation(summary = "Deleta orçamentos de clientes",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Deleta orçamentos de clientes",tags = "Budget")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
         return service.delete(id);
     }
 
     @GetMapping(value = "/find/id/{id}")
-    @Operation(summary = "Filtra orçamentos pelo id",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Filtra orçamentos pelo id",tags = "Budget")
     public ResponseEntity<?> detailsClientId(@PathVariable UUID id) {
         return service.detailsId(id);
     }
 
     @GetMapping(value = "/find/email/{email}")
-    @Operation(summary = "Filtra orçamentos pelo email",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Filtra orçamentos pelo email",tags = "Budget")
     public ResponseEntity<?> detailsClientEmail(@PathVariable String email) {
         return service.detailsEmail(email);
     }
 
     @PutMapping(value = "/update/{id}")
-    @Operation(summary = "Atualiza orçamentos pelo id",tags = "Budget",security = { @SecurityRequirement(name = "bearer-key") })
+    @Operation(summary = "Atualiza orçamentos pelo id",tags = "Budget")
     public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody @Valid BudgetDTO dto) {
         return service.update(dto, id);
     }

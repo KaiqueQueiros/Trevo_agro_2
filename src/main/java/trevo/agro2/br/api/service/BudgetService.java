@@ -39,7 +39,7 @@ public class BudgetService {
                 " Entraremos em contato em breve para obter mais informações e esclarecer quaisquer dúvidas." +
                 " Nossa equipe está sempre disponível para ajudá-lo no que for preciso." +
                 " Agradecemos novamente pela sua preferência e aguardamos ansiosamente seu retorno para seguir com a solicitação do orçamento." +
-                " Atenciosamente, Trevo SA", products), HttpStatus.OK);
+                " Atenciosamente, Trevo SA", products), HttpStatus.CREATED);
     }
 
     public ResponseEntity<?> list() {
