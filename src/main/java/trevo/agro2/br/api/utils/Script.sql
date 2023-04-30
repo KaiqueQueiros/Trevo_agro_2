@@ -29,7 +29,7 @@ create table tb_product (
 
 
  create table tb_user (
-    id bigint not null,
+    id uuid not null,
     date varchar(50),
     login varchar(255) not null unique,
     name varchar(255) not null,
@@ -37,7 +37,6 @@ create table tb_product (
     role varchar(255),
     primary key (id)
     );
-
 
 alter table if exists tb_budget_product
        add constraint FKdxafxq1mvnd0eaa2pbmw0hxpx
