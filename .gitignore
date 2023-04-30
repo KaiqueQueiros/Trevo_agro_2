@@ -36,3 +36,5 @@ build/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+C:\Users\Kaique Queiroz\Desktop\Projeto Senai\BackEnd2.0\api\src\main\resources\application.properties
+
