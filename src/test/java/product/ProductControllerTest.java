@@ -19,7 +19,6 @@ import trevo.agro2.br.api.dto.user.RoleEnum;
 import trevo.agro2.br.api.model.User;
 import trevo.agro2.br.api.repository.UserRepository;
 import trevo.agro2.br.api.security.TokenService;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
