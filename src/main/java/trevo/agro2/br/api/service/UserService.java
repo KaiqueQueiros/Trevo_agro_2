@@ -56,7 +56,7 @@ public class UserService {
         }
         return new ResponseEntity<>(new ResponseModelObject("Lista de usuarios", dtoList), HttpStatus.OK);
     }
-    public ResponseEntity<?> findUser(@PathVariable UUID id){
+        public ResponseEntity<?> findUser(@PathVariable UUID id){
         if (!userRepository.existsById(id)){
             throw new BadRequestException("Usuario não encontrado");
         }
